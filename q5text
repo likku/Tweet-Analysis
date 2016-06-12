@@ -1,0 +1,17 @@
+scala> val deals = sqlContext.sql("select count(*),'christmasdeals' from table1 where  lower(text) like '%christmasdeals%' union select count(*),'blackfridaydeals' from table1 where lower(text) like '%blackfridaydeals%' union select count(*),'deals' from table1 where lower(text) like '%deals%'union select count(*),'2015' from table1 where lower(text) like '%2015%'union select count(*),'kansascity' from table1 where lower(text) like '%kansascity%'")
+deals: org.apache.spark.sql.DataFrame = [_c0: bigint, _c1: string]
+
+scala> deals.show()
++-----+----------------+                                                        
+|  _c0|             _c1|
++-----+----------------+
+|  203|blackfridaydeals|
+| 2968|            2015|
+|  467|      kansascity|
+|    9|  christmasdeals|
+|27174|           deals|
++-----+----------------+
+
+
+scala> deals.write.format("json").save("/home/ysahwanth/Desktop/q5output.json")
+        

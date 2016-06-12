@@ -1,0 +1,32 @@
+scala> val df=sqlContext.read.json("/home/ysahwanth/Downloads/yashtweets.json")
+df: org.apache.spark.sql.DataFrame = [_corrupt_record: string, contributors: string, coordinates: struct<coordinates:array<double>,type:string>, created_at: string, entities: struct<hashtags:array<struct<indices:array<bigint>,text:string>>,media:array<struct<display_url:string,expanded_url:string,id:bigint,id_str:string,indices:array<bigint>,media_url:string,media_url_https:string,sizes:struct<large:struct<h:bigint,resize:string,w:bigint>,medium:struct<h:bigint,resize:string,w:bigint>,small:struct<h:bigint,resize:string,w:bigint>,thumb:struct<h:bigint,resize:string,w:bigint>>,source_status_id:bigint,source_status_id_str:string,source_user_id:bigint,source_user_id_str:string,type:string,url:string>>,symbols:array<struct<indices:array<bigint>,text:string>>,urls:array<struct<display_url:st...
+scala> df.registerTempTable("table1")
+
+scala> val followers = sqlContext.sql("select user.id,user.name,max(user.followers_count) as followers_count from table1 group by user.id,user.name")
+followers: org.apache.spark.sql.DataFrame = [id: bigint, name: string, followers_count: bigint]
+
+scala> followers.registerTempTable("followers")
+
+scala> val followers_out = sqlContext.sql("select name,followers_count from followers order by followers_count desc limit 10")
+followers_out: org.apache.spark.sql.DataFrame = [name: string, followers_count: bigint]
+
+scala> followers_out.show()
++------------------+---------------+                                            
+|              name|followers_count|
++------------------+---------------+
+|               NBA|       18065653|
+|               NFL|       14336118|
+|         UberFacts|       12305377|
+|    Premier League|       10073408|
+|       Google Play|        5720896|
+|          G-DRAGON|        5021235|
+|   Hillary Clinton|        4784514|
+|      The Guardian|        4652658|
+|     Adam Schefter|        4388350|
+|ELLE Magazine (US)|        4384696|
++------------------+---------------+
+
+
+scala> followers_out.write.format("json").save("/home/ysahwanth/Desktop/q2output.json")
+
+

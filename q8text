@@ -1,0 +1,17 @@
+scala> val df=sqlContext.read.json("/home/ysahwanth/Downloads/yashtweets.json")
+df: org.apache.spark.sql.DataFrame = [_corrupt_record: string, contributors: string, coordinates: struct<coordinates:array<double>,type:string>, created_at: string, entities: struct<hashtags:array<struct<indices:array<bigint>,text:string>>,media:array<struct<display_url:string,expanded_url:string,id:bigint,id_str:string,indices:array<bigint>,media_url:string,media_url_https:string,sizes:struct<large:struct<h:bigint,resize:string,w:bigint>,medium:struct<h:bigint,resize:string,w:bigint>,small:struct<h:bigint,resize:string,w:bigint>,thumb:struct<h:bigint,resize:string,w:bigint>>,source_status_id:bigint,source_status_id_str:string,source_user_id:bigint,source_user_id_str:string,type:string,url:string>>,symbols:array<struct<indices:array<bigint>,text:string>>,urls:array<struct<display_url:st...
+scala> df.registerTempTable("table1")
+
+scala> val tweet_followers_count = sqlContext.sql("select user.followers_count,user.screen_name from table1 as  t1 join (select max(user.followers_count)as max_followers from table1) as  t2 on user.followers_count=t2.max_followers")
+tweet_followers_count: org.apache.spark.sql.DataFrame = [followers_count: bigint, screen_name: string]
+
+scala> tweet_followers_count.show()
++---------------+-----------+                                                   
+|followers_count|screen_name|
++---------------+-----------+
+|       18065653|        NBA|
++---------------+-----------+
+
+
+scala> tweet_followers_count.write.format("json").save("/home/ysahwanth/Desktop/q8output.json")
+    

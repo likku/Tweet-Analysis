@@ -1,0 +1,67 @@
+ysahwanth@ubuntu:~$ cd Desktop
+ysahwanth@ubuntu:~/Desktop$ /home/ysahwanth/Desktop/spark-1.5.2-bin-hadoop2.6/bin/spark-shell
+log4j:WARN No appenders could be found for logger (org.apache.hadoop.metrics2.lib.MutableMetricsFactory).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Using Spark's repl log4j profile: org/apache/spark/log4j-defaults-repl.properties
+To adjust logging level use sc.setLogLevel("INFO")
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /___/ .__/\_,_/_/ /_/\_\   version 1.5.2
+      /_/
+
+Using Scala version 2.10.4 (OpenJDK 64-Bit Server VM, Java 1.7.0_91)
+Type in expressions to have them evaluated.
+Type :help for more information.
+15/11/29 21:25:21 WARN Utils: Your hostname, ubuntu resolves to a loopback address: 127.0.1.1; using 192.168.58.129 instead (on interface eth0)
+15/11/29 21:25:21 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+15/11/29 21:25:22 WARN MetricsSystem: Using default name DAGScheduler for source because spark.app.id is not set.
+Spark context available as sc.
+15/11/29 21:25:24 WARN Connection: BoneCP specified but not present in CLASSPATH (or one of dependencies)
+15/11/29 21:25:25 WARN Connection: BoneCP specified but not present in CLASSPATH (or one of dependencies)
+15/11/29 21:25:30 WARN ObjectStore: Version information not found in metastore. hive.metastore.schema.verification is not enabled so recording the schema version 1.2.0
+15/11/29 21:25:30 WARN ObjectStore: Failed to get database default, returning NoSuchObjectException
+15/11/29 21:25:32 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+15/11/29 21:25:33 WARN Connection: BoneCP specified but not present in CLASSPATH (or one of dependencies)
+15/11/29 21:25:33 WARN Connection: BoneCP specified but not present in CLASSPATH (or one of dependencies)
+SQL context available as sqlContext.
+
+scala> val df=sqlContext.read.json("/home/ysahwanth/Downloads/yashtweets.json")
+df: org.apache.spark.sql.DataFrame = [_corrupt_record: string, contributors: string, coordinates: struct<coordinates:array<double>,type:string>, created_at: string, entities: struct<hashtags:array<struct<indices:array<bigint>,text:string>>,media:array<struct<display_url:string,expanded_url:string,id:bigint,id_str:string,indices:array<bigint>,media_url:string,media_url_https:string,sizes:struct<large:struct<h:bigint,resize:string,w:bigint>,medium:struct<h:bigint,resize:string,w:bigint>,small:struct<h:bigint,resize:string,w:bigint>,thumb:struct<h:bigint,resize:string,w:bigint>>,source_status_id:bigint,source_status_id_str:string,source_user_id:bigint,source_user_id_str:string,type:string,url:string>>,symbols:array<struct<indices:array<bigint>,text:string>>,urls:array<struct<display_url:st...
+scala> df.registerTempTable("table1")
+
+scala> val count = sqlContext.sql("select user.time_zone,count(*) as count from table1 where  user.time_zone is not null group by user.time_zone limit 25")
+count: org.apache.spark.sql.DataFrame = [time_zone: string, count: bigint]
+
+scala> count.show()
++--------------------+-----+                                                    
+|           time_zone|count|
++--------------------+-----+
+|                Bern|  254|
+|          Georgetown|   32|
+|                 CST|   29|
+|                Guam|   26|
+|        Asia/Karachi|    1|
+|            Santiago|  309|
+|             Sapporo|   18|
+|        Kuala Lumpur|  362|
+|Atlantic/South_Ge...|    3|
+|           Abu Dhabi|   44|
+|        Europe/Paris|    1|
+|            Sarajevo|   15|
+|                 MST|    7|
+|     America/Halifax|    5|
+|               Hanoi|   76|
+|             Bangkok|  334|
+|     America/Caracas|    3|
+|            Helsinki|   26|
+| Africa/Johannesburg|    2|
+|Eastern Time (US ...|26453|
++--------------------+-----+
+only showing top 20 rows
+
+
+scala> count.write.format("json").save("/home/ysahwanth/Desktop/q1output.json")
+

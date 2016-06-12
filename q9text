@@ -1,0 +1,30 @@
+Test q:
+In which minute did we get more number of tweets while we collected our tweets collection data?!
+
+scala> val test= sqlContext.sql("select created_at,count(created_at) as count from table1 where id is not null group by created_at order by count desc limit 15 ")
+test: org.apache.spark.sql.DataFrame = [created_at: string, count: bigint]
+
+scala> test.show()
++--------------------+-----+                                                    
+|          created_at|count|
++--------------------+-----+
+|Sun Nov 29 23:44:...|   85|
+|Sun Nov 29 23:46:...|   81|
+|Mon Nov 30 00:44:...|   80|
+|Mon Nov 30 01:34:...|   79|
+|Mon Nov 30 00:42:...|   78|
+|Sun Nov 29 23:43:...|   76|
+|Sun Nov 29 23:44:...|   76|
+|Sun Nov 29 23:40:...|   75|
+|Sun Nov 29 23:55:...|   74|
+|Sun Nov 29 23:35:...|   73|
+|Mon Nov 30 00:04:...|   73|
+|Mon Nov 30 00:21:...|   73|
+|Mon Nov 30 00:40:...|   72|
+|Mon Nov 30 00:43:...|   72|
+|Mon Nov 30 00:48:...|   72|
++--------------------+-----+
+
+
+scala> test.write.format("json").save("/home/ysahwanth/Desktop/testoutput.json")
+    

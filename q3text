@@ -1,0 +1,19 @@
+scala> val q3 = sqlContext.sql("select user.screen_name,count(user.screen_name) as tweets_count from table1 group by user.screen_name order by tweets_count desc limit 5")
+q3: org.apache.spark.sql.DataFrame = [screen_name: string, tweets_count: bigint]
+
+scala> q3.show()
++---------------+------------+                                                  
+|    screen_name|tweets_count|
++---------------+------------+
+|savetimeandmoey|         306|
+|     AmexOffers|         301|
+|        top10us|         258|
+|    HashTagKCMO|         250|
+| ComputerBuying|         207|
++---------------+------------+
+
+
+scala> q3.write.format("json").save("/home/ysahwanth/Desktop/q3output.json")
+
+
+

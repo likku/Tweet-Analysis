@@ -1,0 +1,20 @@
+scala> val deals1 = sqlContext.sql("select count(*) as tot,'offers' as deal_name from table1 where  lower(text) like '%offers%' union select count(*) as tot ,'off' as deal_name from table1 where lower(text) like '%off%' union select count(*) as tot,'deals' as deal_name from table1 where lower(text) like '%deals%'")
+deals1: org.apache.spark.sql.DataFrame = [tot: bigint, deal_name: string]
+
+scala> deals1.registerTempTable("table2")
+
+scala> val deals = sqlContext.sql("select (tot/total_cnt)*100 as tweets_percentage,deal_name from table2 join count_table")
+deals: org.apache.spark.sql.DataFrame = [tweets_percentage: double, deal_name: string]
+
+scala> deals.show()
++------------------+---------+                                                  
+| tweets_percentage|deal_name|
++------------------+---------+
+|40.216510718938764|      off|
+| 6.437048442496743|    deals|
+| 1.571242449366339|   offers|
++------------------+---------+
+
+
+scala> deals.write.format("json").save("/home/ysahwanth/Desktop/q6output.json")
+         

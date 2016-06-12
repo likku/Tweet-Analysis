@@ -1,0 +1,19 @@
+scala> val q4 = sqlContext.sql("select lang,count(*) as count from table1 where id is not null group by lang order by count desc limit 7")
+q4: org.apache.spark.sql.DataFrame = [lang: string, count: bigint]
+
+scala> q4.show()
++----+------+                                                                   
+|lang| count|
++----+------+
+|  en|197054|
+| und|  4312|
+|  ja|  2850|
+|  es|   841|
+|  tl|   806|
+|  fr|   716|
+|  pt|   704|
++----+------+
+
+
+scala> q4.write.format("json").save("/home/ysahwanth/Desktop/q4output.json")
+                                                                             
