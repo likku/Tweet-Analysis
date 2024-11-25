@@ -1,5 +1,5 @@
-ysahwanth@ubuntu:~$ cd Desktop
-ysahwanth@ubuntu:~/Desktop$ /home/ysahwanth/Desktop/spark-1.5.2-bin-hadoop2.6/bin/spark-shell
+likku@ubuntu:~$ cd Desktop
+likku@ubuntu:~/Desktop$ /home/ysahwanth/Desktop/spark-1.5.2-bin-hadoop2.6/bin/spark-shell
 log4j:WARN No appenders could be found for logger (org.apache.hadoop.metrics2.lib.MutableMetricsFactory).
 log4j:WARN Please initialize the log4j system properly.
 log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
@@ -28,7 +28,7 @@ Spark context available as sc.
 15/11/29 21:25:33 WARN Connection: BoneCP specified but not present in CLASSPATH (or one of dependencies)
 SQL context available as sqlContext.
 
-scala> val df=sqlContext.read.json("/home/ysahwanth/Downloads/yashtweets.json")
+scala> val df=sqlContext.read.json("/home/lj/Downloads/ljtweets.json")
 df: org.apache.spark.sql.DataFrame = [_corrupt_record: string, contributors: string, coordinates: struct<coordinates:array<double>,type:string>, created_at: string, entities: struct<hashtags:array<struct<indices:array<bigint>,text:string>>,media:array<struct<display_url:string,expanded_url:string,id:bigint,id_str:string,indices:array<bigint>,media_url:string,media_url_https:string,sizes:struct<large:struct<h:bigint,resize:string,w:bigint>,medium:struct<h:bigint,resize:string,w:bigint>,small:struct<h:bigint,resize:string,w:bigint>,thumb:struct<h:bigint,resize:string,w:bigint>>,source_status_id:bigint,source_status_id_str:string,source_user_id:bigint,source_user_id_str:string,type:string,url:string>>,symbols:array<struct<indices:array<bigint>,text:string>>,urls:array<struct<display_url:st...
 scala> df.registerTempTable("table1")
 
@@ -63,5 +63,5 @@ scala> count.show()
 only showing top 20 rows
 
 
-scala> count.write.format("json").save("/home/ysahwanth/Desktop/q1output.json")
+scala> count.write.format("json").save("/home/lj/Desktop/q1output.json")
 
