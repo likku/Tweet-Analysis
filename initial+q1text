@@ -1,5 +1,5 @@
 likku@ubuntu:~$ cd Desktop
-likku@ubuntu:~/Desktop$ /home/ysahwanth/Desktop/spark-1.5.2-bin-hadoop2.6/bin/spark-shell
+likku@ubuntu:~/Desktop$ /home/lj/Desktop/spark-1.5.2-bin-hadoop2.6/bin/spark-shell
 log4j:WARN No appenders could be found for logger (org.apache.hadoop.metrics2.lib.MutableMetricsFactory).
 log4j:WARN Please initialize the log4j system properly.
 log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
