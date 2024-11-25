@@ -26,5 +26,5 @@ scala> test.show()
 +--------------------+-----+
 
 
-scala> test.write.format("json").save("/home/ysahwanth/Desktop/testoutput.json")
+scala> test.write.format("json").save("/home/lj/Desktop/testoutput.json")
     
